@@ -19,6 +19,39 @@ router.post('/', async(req ,res)=>{
     }catch (error) {
         res.status(404).json({ message: error.message });
         }
+    })
+    router.get('/:articleId',async(req, res)=>{
+      try {
+        const art = await Article.findById(req.params.articleId);
+        res.status(200).json(art);
+      } catch (error) {
+        res.status(404).json({ message: error.message });
+      }
+     });
+     router.put('/:articleId', async (req, res)=> {
+        try {
+        const art = await Article.findByIdAndUpdate(
+        req.params.articleId,
+        { $set: req.body },
+        { new: true }
+      );
+        const articles = await
+        Article.findById(art._id).populate("scategorieID").exec();
+        res.status(200).json(articles);
+        } catch (error) {
+        res.status(404).json({ message: error.message });
+        }
+        });
+        // Supprimer un article
+        router.delete('/:articleId', async (req, res)=> {
+        const id = req.params.articleId;
+        try {
+        await Article.findByIdAndDelete(id);
+        res.status(200).json({ message: "article deleted successfully." });
+        } catch (error) {
+        res.status(404).json({ message: error.message });
+        }
+        });
 
-})
+
 module.exports = router ;

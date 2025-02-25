@@ -29,6 +29,34 @@ router.post('/', async (req, res) => {
         res.status(404).json({ message: error.message });
         }
         });
+     router.put('/:scategorieId', async (req, res)=> {
+        try {
+         const scat1 = await SCategorie.findByIdAndUpdate(
+         req.params.scategorieId,
+         { $set: req.body },
+         { new: true }
+            );
+            res.status(200).json(scat1);
+            } catch (error) {
+            res.status(404).json({ message: error.message });
+            }
+            });
+     // Supprimer une s/catégorie
+    router.delete('/:scategorieId', async (req, res)=> {
+      const id = req.params.scategorieId;
+      await SCategorie.findByIdAndDelete(id);
+      res.json({ message: "sous categorie deleted successfully." });
+      });
+            // chercher une sous catégorie par cat
+    router.get('/cat/:categorieID',async(req, res)=>{
+     try {
+      const scat = await SCategorie.find({ categorieID:
+       req.params.categorieID}).exec();
+       res.status(200).json(scat);
+       } catch (error) {
+         res.status(404).json({ message: error.message });
+            }
+       });    
     
         
 

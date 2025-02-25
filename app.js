@@ -24,3 +24,4 @@ app.use("/api/chat",chatbotRouter)
 app.listen(process.env.PORT,function(){
     console.log(`serveure is listen on port ${process.env.PORT}`)
 })
+module.exports = app;

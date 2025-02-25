@@ -1,7 +1,6 @@
-const express = require('express')
+const express = require('express');
 const axios = require('axios');
 const Message = require('../models/message');
-
 const router = express.Router();
 router.use(express.json());
 // Route pour envoyer une question à Ollama
@@ -17,8 +16,6 @@ stream: false // On veut une réponse complète
 }, {
 headers: { "Content-Type": "application/json" }
 });
-
-3
 if (!data || !data.response) throw new Error("Réponse invalide d'Ollama");
 const responseText = data.response;
 console.log(`Réponse Ollama: ${responseText}`);
@@ -31,4 +28,14 @@ console.error("Erreur:", error.message);
 res.status(500).json({ error: "Erreur interne", details: error.message });
 }
 });
-module.exports = router ;
+// API pour récupérer les messages stockés
+router.get("/messages", async (req, res) => {
+try {
+const messages = await Message.find();
+res.json(messages);
+} catch (error) {
+res.status(500).json({ error: "Erreur de récupération", details: error.message
+});
+}
+});
+module.exports = router;
