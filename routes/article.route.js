@@ -13,9 +13,9 @@ router.get('/' , async (req, res ,)=>{
 router.post('/', async(req ,res)=>{
     const nouvarticle = new Article(req.body)
     try{
-        const respons =await nouvarticle.save();
-        const articles = await Article.findByID(response._id).populate("scategorieID").exec();
-        res.status(200).json(articles);
+      await nouvarticle.save();
+        
+        res.status(200).json(nouvarticle);
     }catch (error) {
         res.status(404).json({ message: error.message });
         }
