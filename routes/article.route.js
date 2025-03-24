@@ -17,13 +17,12 @@ router.get('/' , async (req, res ,)=>{
 router.post("/query", async (req, res) => {
   try {
   const { text } = req.body;
-  if (!text) return res.status(400).json({ error: "Aucune requête fournie."
-  
-  });
+  if (!text) return res.status(400).json({ error: "Aucune requête fournie."});
   
   console.log(" Requête reçue:", text);
   // Générer la requête MongoDB via LLaMA 3
   const mongoQuery = await generateMongoQuery(text);
+  console.log("requete" ,mongoQuery)
   console.log(" Requête MongoDB générée avant correction:", mongoQuery);
   let query = mongoQuery.filter || {};
   const sort = mongoQuery.sort || { _id: -1 };
@@ -38,9 +37,7 @@ router.post("/query", async (req, res) => {
   scategorieName = query.scategorieID;
   }
   if (scategorieName) {
-  console.log(" Recherche de l'ID de la sous-catégorie pour :",
-  
-  scategorieName);
+  console.log(" Recherche de l'ID de la sous-catégorie pour :",scategorieName);
   
   // Chercher l'ObjectId correspondant à la sous-catégorie
   const scategorie = await Scategorie.findOne({
@@ -53,11 +50,10 @@ router.post("/query", async (req, res) => {
   console.log("Sous-catégorie trouvée:", scategorie._id);
 query.scategorieID = scategorie._id; // Remplacement par l'ObjectId
 
-correct
-}
-console.log(" Requête finale exécutée sur MongoDB:", JSON.stringify(query,
 
-null, 2));
+}
+console.log(" Requête finale exécutée sur MongoDB:", 
+JSON.stringify(query,null, 2));
 
 // Détection si l'utilisateur demande un comptage
 if (/nombre|combien|count/i.test(text)) {

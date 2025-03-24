@@ -10,7 +10,6 @@ const response = await axios.post(process.env.OLLAMA_API_URL, {
 model: process.env.OLLAMA_MODEL,
 stream: false,
 prompt: `
-
 Tu es un expert en bases de données et NLP. Analyse la requête utilisateur et génère une
 requête MongoDB au format JSON.
 N'inclus que du JSON, sans texte explicatif.
@@ -54,9 +53,7 @@ if (!query.filter) return query;
 // Supprimer la vérification inutile de `categorieID`
 if (query.filter.$and && Array.isArray(query.filter.$and)) {
 query.filter.$and = query.filter.$and.filter(condition => {
-if (typeof condition !== "object" || Object.keys(condition).length
-
-=== 0) {
+if (typeof condition !== "object" || Object.keys(condition).length=== 0) {
 
 return false; // Supprime les objets vides
 }
@@ -80,9 +77,7 @@ if (typeof id !== "string") {
 console.log(" Correction `scategorieID` non valide :", id);
 delete query.filter.scategorieID; // Supprime l'ID incorrect
 } else if (id.match(/^[0-9a-fA-F]{24}$/)) {
-query.filter.scategorieID = new ObjectId(id); // Convertit en
-
-`ObjectId`
+query.filter.scategorieID = new ObjectId(id); // Convertit en `ObjectId`
 }
 }
 return query;
